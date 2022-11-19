@@ -108,12 +108,12 @@ void merge(int array[], const int& left, const int& mid, const int& right)
 	delete[] rightArray;
 }
 
-void mergeSort(int* a, int left, int right) {
+void mergeSort(int* a, const int& left, const int& right) {
 	if (left < right) {
 		int mid = left + (right - left) / 2;
 		mergeSort(a, left, mid);
 		mergeSort(a, mid + 1, right);
-		Merge(a, left, mid, right);
+		merge(a, left, mid, right);
 	}
 }
 
