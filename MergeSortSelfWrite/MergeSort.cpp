@@ -85,6 +85,41 @@ void mergeSort(int* a, const int& left, const int& right) {
 	}
 }
 
+void mergeSortIte(int* a, int left, int right) {
+	int* Stack = new int[1000];
+	int* Sta = new int[1000];
+	int mid;
+	int count = -1,
+		_count = -1;
+	Stack[++count] = left;
+	Stack[++count] = right;
+	Sta[++_count] = left;
+	Sta[++_count] = right;
+	while (_count >= 0) {
+		right = Sta[_count--];
+		left = Sta[_count--];
+		mid = left + (right - left) / 2;
+		if (mid > left) {
+			Stack[++count] = left;
+			Stack[++count] = mid;
+			Sta[++_count] = left;
+			Sta[++_count] = mid;
+		}
+		if (right > mid + 1) {
+			Stack[++count] = mid + 1;
+			Stack[++count] = right;
+			Sta[++_count] = mid + 1;
+			Sta[++_count] = right;
+		}
+	}
+	while (count >= 0) {
+		right = Stack[count--];
+		left = Stack[count--];
+		mid = left + (right - left) / 2;
+		merge(a, left, mid, right);
+	}
+}
+
 int main() {
 	std::ios_base::sync_with_stdio(0);
 	std::cin.tie(NULL);
@@ -93,7 +128,7 @@ int main() {
 	int count = 0;
 	inputArray(a, count);
 	auto start = std::chrono::high_resolution_clock::now();
-	mergeSort(a, 0, count - 1);
+	mergeSortIte(a, 0, count - 1);
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 	printSortedArray(a, count);
