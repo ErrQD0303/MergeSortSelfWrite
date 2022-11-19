@@ -50,60 +50,28 @@ void Merge(int* a, const int& left, const int& mid, const int& right) {
 	}
 }
 
-void merge(int array[], const int& left, const int& mid, const int& right)
+void merge(int* a, const int& left, const int& mid, const int& right)
 {
-	auto const subArrayOne = mid - left + 1;
-	auto const subArrayTwo = right - mid;
-
-	// Create temp arrays
-	auto* leftArray = new int[subArrayOne],
-		* rightArray = new int[subArrayTwo];
-
-	// Copy data to temp arrays leftArray[] and rightArray[]
-	for (auto i = 0; i < subArrayOne; i++)
-		leftArray[i] = array[left + i];
-	for (auto j = 0; j < subArrayTwo; j++)
-		rightArray[j] = array[mid + 1 + j];
-
-	auto indexOfSubArrayOne
-		= 0, // Initial index of first sub-array
-		indexOfSubArrayTwo
-		= 0; // Initial index of second sub-array
-	int indexOfMergedArray
-		= left; // Initial index of merged array
-
-	// Merge the temp arrays back into array[left..right]
-	while (indexOfSubArrayOne < subArrayOne
-		&& indexOfSubArrayTwo < subArrayTwo) {
-		if (leftArray[indexOfSubArrayOne]
-			<= rightArray[indexOfSubArrayTwo]) {
-			array[indexOfMergedArray]
-				= leftArray[indexOfSubArrayOne];
-			indexOfSubArrayOne++;
-		}
-		else {
-			array[indexOfMergedArray]
-				= rightArray[indexOfSubArrayTwo];
-			indexOfSubArrayTwo++;
-		}
-		indexOfMergedArray++;
-	}
-	// Copy the remaining elements of
-	// left[], if there are any
-	while (indexOfSubArrayOne < subArrayOne) {
-		array[indexOfMergedArray]
-			= leftArray[indexOfSubArrayOne];
-		indexOfSubArrayOne++;
-		indexOfMergedArray++;
-	}
-	// Copy the remaining elements of
-	// right[], if there are any
-	while (indexOfSubArrayTwo < subArrayTwo) {
-		array[indexOfMergedArray]
-			= rightArray[indexOfSubArrayTwo];
-		indexOfSubArrayTwo++;
-		indexOfMergedArray++;
-	}
+	int LeftArrayTotalElement = mid - left + 1;
+	int rightArrayTotalElement = right - mid;
+	int* leftArray = new int[LeftArrayTotalElement],
+		*rightArray = new int[rightArrayTotalElement];
+	for (int i = 0; i < LeftArrayTotalElement; ++i)
+		leftArray[i] = a[left + i];
+	for (int i = 0; i < rightArrayTotalElement; ++i)
+		rightArray[i] = a[mid + 1 + i];
+	int leftPos = 0,
+		rightPos = 0,
+		idx = left;
+	while (leftPos < LeftArrayTotalElement && rightPos < rightArrayTotalElement)
+		if (leftArray[leftPos] < rightArray[rightPos])
+			a[idx++] = leftArray[leftPos++];
+		else
+			a[idx++] = rightArray[rightPos++];
+	while (leftPos < LeftArrayTotalElement)
+		a[idx++] = leftArray[leftPos++];
+	while (rightPos < rightArrayTotalElement)
+		a[idx++] = rightArray[rightPos++];	
 	delete[] leftArray;
 	delete[] rightArray;
 }
